@@ -36,6 +36,9 @@ const (
 
 	// Enable or disable debug output
 	ENV_DEBUG string = "DEBUG"
+
+	// Keep power meter stats when wallbox becomes unreachable
+	ENV_KEEP_POWER_METER string = "KEEP_POWER_METER"
 )
 
 func getEnvVariableOrDie(lookup string) string {
@@ -57,6 +60,16 @@ func main() {
 		log.SetLevel(log.DebugLevel)
 	}
 
+	keepPowerMetersWhenUnreachable := false
+	var lastDispensedEnergyValue uint = 0.0
+	lastSessionEnergyValue := 0.0
+
+	if value, found := os.LookupEnv(ENV_KEEP_POWER_METER); found && value == "true" {
+		keepPowerMetersWhenUnreachable = true
+
+		log.Info("Keeping last power meter stats when wallbox becomes unreachable")
+	}
+
 	log.Debugf("Looking for a Tesla walbox under %s", ipAddress)
 
 	http.HandleFunc("/query", func(response http.ResponseWriter, request *http.Request) {
@@ -69,6 +82,19 @@ func main() {
 		} else {
 			response.WriteHeader(http.StatusInternalServerError)
 			log.Error("Fetch from wallbox not successfull")
+		}
+
+		if keepPowerMetersWhenUnreachable {
+			if vitals.SessionEnergy == 0 {
+				vitals.SessionEnergy = lastSessionEnergyValue
+			}
+
+			if stats.DispensedEnergy == 0 {
+				stats.DispensedEnergy = lastDispensedEnergyValue
+			}
+
+			lastSessionEnergyValue = vitals.SessionEnergy
+			lastDispensedEnergyValue = stats.DispensedEnergy
 		}
 
 		// To whoever reads this: the teslaWallbox module returns initialized structs with default value
