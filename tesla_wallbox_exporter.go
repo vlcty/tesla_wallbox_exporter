@@ -76,13 +76,15 @@ func main() {
 		vitals, vitalsError := teslaWallbox.FetchVitals(ipAddress)
 		stats, statsError := teslaWallbox.FetchLifetimeStats(ipAddress)
 
-		if vitalsError == nil && statsError == nil {
-			response.WriteHeader(http.StatusOK)
-			log.Info("Fetch from wallbox successfull")
-		} else {
-			response.WriteHeader(http.StatusInternalServerError)
-			log.Error("Fetch from wallbox not successfull")
+		if vitalsError != nil {
+			log.Error("Vitals error:", vitalsError)
 		}
+
+		if statsError != nil {
+			log.Error("Stats error:", statsError)
+		}
+
+		response.WriteHeader(http.StatusOK)
 
 		if keepPowerMetersWhenUnreachable {
 			if vitals.SessionEnergy == 0 {
