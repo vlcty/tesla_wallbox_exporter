@@ -67,10 +67,10 @@ func main() {
 	if value, found := os.LookupEnv(ENV_KEEP_POWER_METER); found && value == "true" {
 		keepPowerMetersWhenUnreachable = true
 
-		log.Info("Keeping last power meter stats when wallbox becomes unreachable")
+		log.Info("Keeping power meter stats if wallbox becomes unreachable")
 	}
 
-	log.Debugf("Looking for a Tesla walbox under %s", ipAddress)
+	log.Debugf("Looking for a Tesla wallbox under %s", ipAddress)
 
 	http.HandleFunc("/query", func(response http.ResponseWriter, request *http.Request) {
 		vitals, vitalsError := teslaWallbox.FetchVitals(ipAddress)
