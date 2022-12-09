@@ -75,6 +75,7 @@ func main() {
 	http.HandleFunc("/query", func(response http.ResponseWriter, request *http.Request) {
 		vitals, vitalsError := teslaWallbox.FetchVitals(ipAddress)
 		stats, statsError := teslaWallbox.FetchLifetimeStats(ipAddress)
+		wifiStats, wifiStatsError := teslaWallbox.FetchWifiStats(ipAddress)
 
 		if vitalsError != nil {
 			log.Error("Vitals error:", vitalsError)
@@ -82,6 +83,10 @@ func main() {
 
 		if statsError != nil {
 			log.Error("Stats error:", statsError)
+		}
+
+		if wifiStatsError != nil {
+			log.Error("Wifi stats error:", wifiStatsError)
 		}
 
 		response.WriteHeader(http.StatusOK)
@@ -103,6 +108,7 @@ func main() {
 		// I actively want to write null/zero/default values to the timeseries database
 		fmt.Fprintln(response, prometheusFormatWallboxVitals(vitals))
 		fmt.Fprintln(response, prometheusFormatWallboxLifetimeStats(stats))
+		fmt.Fprintln(response, prometheusFormatWallboxWifiStats(wifiStats))
 
 		log.Debugf("Vitals: %+v", vitals)
 		log.Debugf("Stats: %+v", stats)
@@ -254,6 +260,32 @@ evse_state %d
 		vitals.PilotLowVoltage,
 		vitals.ConfigStatus,
 		vitals.EvseState)
+}
+
+func prometheusFormatWallboxWifiStats(wifiStats *teslaWallbox.WifiStats) string {
+	formatString := `
+# TYPE wifi_signal_strength gauge
+wifi_signal_strength %d
+
+# TYPE wifi_rssi gauge
+wifi_rssi %d
+
+# TYPE wifi_snr gauge
+wifi_snr %d
+
+# TYPE wifi_connected_to_lan gauge
+wifi_connected_to_lan %d
+
+# TYPE wifi_connected_to_internet gauge
+wifi_connected_to_internet %d
+	`
+
+	return fmt.Sprintf(formatString,
+		wifiStats.SignalStrength,
+		wifiStats.RSSI,
+		wifiStats.SNR,
+		boolToInt(wifiStats.ConnectedToLAN),
+		boolToInt(wifiStats.ConnectedToInternet))
 }
 
 func boolToInt(v bool) int {
