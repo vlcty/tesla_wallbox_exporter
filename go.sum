@@ -10,6 +10,12 @@ github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5Cc
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/vlcty/TeslaWallbox v1.0.0 h1:avR636NQGjMN9f5uOyhEWLu3yMullWifG2C/ct/paeY=
 github.com/vlcty/TeslaWallbox v1.0.0/go.mod h1:VI6g7N0i8BngGR+2PpZSvEDYaJHLJEPjAW0ie2ZxTjs=
+github.com/vlcty/TeslaWallbox v1.0.1 h1:mioSB7dJmccNxztQyJPULpcUOUfmeu6knqjv5hsOICQ=
+github.com/vlcty/TeslaWallbox v1.0.1/go.mod h1:wxZMROcMDZiIV4EvR46Jjvp3E7gIhfY/uuWmnGFoZ20=
+github.com/vlcty/TeslaWallbox v1.0.2 h1:NXJNbBywL2d4x9cnUU+7bnb9nnwPHDN87ZNd0HqVGsU=
+github.com/vlcty/TeslaWallbox v1.0.2/go.mod h1:wxZMROcMDZiIV4EvR46Jjvp3E7gIhfY/uuWmnGFoZ20=
+github.com/vlcty/TeslaWallbox v1.0.3 h1:eX9ZONqA7sM+MJBjWKgb53oZ6HVpx0tft/23mQlISDo=
+github.com/vlcty/TeslaWallbox v1.0.3/go.mod h1:wxZMROcMDZiIV4EvR46Jjvp3E7gIhfY/uuWmnGFoZ20=
 golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220825204002-c680a09ffe64 h1:UiNENfZ8gDvpiWw7IpOMQ27spWmThO1RwwdQVbJahJM=
 golang.org/x/sys v0.0.0-20220825204002-c680a09ffe64/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
