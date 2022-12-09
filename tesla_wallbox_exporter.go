@@ -112,6 +112,7 @@ func main() {
 
 		log.Debugf("Vitals: %+v", vitals)
 		log.Debugf("Stats: %+v", stats)
+		log.Debugf("WifiStats: %+v", wifiStats)
 	})
 
 	if e := http.ListenAndServe(":8420", nil); e != nil {
